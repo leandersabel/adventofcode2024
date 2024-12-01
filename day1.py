@@ -7,8 +7,8 @@ from solution import Solution
 class Day1Solution(Solution):
 
     def parse_input(self):
-        l1, l2 = zip(*[map(int, re.findall(r'\d+', line)) for line in self.input_data.split('\n')])
-        return [sorted(l1), sorted(l2)]
+        numbers = [int(x) for x in re.findall(r'\d+', self.input_data)]
+        return [sorted(numbers[0::2]), sorted(numbers[1::2])]
 
     def solve_part1(self):
         l1, l2 = self.parsed_input
