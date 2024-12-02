@@ -1,13 +1,13 @@
 # https://adventofcode.com/2024/day/1
-import re
 
+import utils
 from solution import Solution
 
 
 class Day1Solution(Solution):
 
     def parse_input(self):
-        numbers = [int(x) for x in re.findall(r'\d+', self.input_data)]
+        numbers = utils.get_digits(self.input_data)
         return [sorted(numbers[0::2]), sorted(numbers[1::2])]
 
     def solve_part1(self):
