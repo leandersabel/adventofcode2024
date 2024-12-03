@@ -31,9 +31,14 @@ def neighbours(lst):
     return zip(lst, lst[1:])
 
 
-def permutations(lst):
-    return [lst[:i] + lst[i + 1:] for i in range(len(lst))]
-
-
 def get_digits(line):
     return [int(x) for x in re.findall(r'\d+', line)]
+
+
+def list_reductions(lst):
+    """
+    Generate sublists by removing one element at a time from the input list.
+    @param lst: The input list.
+    @return: A list of sublists, each with one element removed from the original list.
+    """
+    return [lst[:i] + lst[i + 1:] for i in range(len(lst))]

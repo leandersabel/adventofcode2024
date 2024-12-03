@@ -19,7 +19,7 @@ class Day2Solution(Solution):
             if is_safe(report):
                 safe_reports += 1
             else:
-                if any(is_safe(perm) for perm in utils.permutations(report)):
+                if any(is_safe(perm) for perm in utils.list_reductions(report)):
                     safe_reports += 1
 
         return safe_reports
