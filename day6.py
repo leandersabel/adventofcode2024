@@ -2,6 +2,7 @@
 from collections import deque
 from copy import deepcopy
 from enum import Enum
+from multiprocessing import Pool
 
 from solution import Solution
 
@@ -23,7 +24,7 @@ class Day6Solution(Solution):
         guard = next((r, row.index('^')) for r, row in enumerate(grid) if '^' in row)
 
         while guard not in [Status.OUT, Status.LOOP]:
-            guard = move_guard(grid, guard, [])
+            guard = move_guard(grid, guard, set())
 
         return sum(row.count('x') for row in grid) + 1
 
@@ -31,20 +32,12 @@ class Day6Solution(Solution):
     def solve_part2(self):
         grid = self.parsed_input
         variants = generate_variants(grid)
-        loops = 0
 
-        while len(variants) > 0:
-            visited = []
-            guard = next((r, row.index('^')) for r, row in enumerate(grid) if '^' in row)
-            var_grid = variants.pop()
+        with Pool() as pool:
+            results = pool.map(simulate_variant, variants)
 
-            while guard not in [Status.OUT, Status.LOOP]:
-                guard = move_guard(var_grid, guard, visited)
+        return sum(results)
 
-            if guard == Status.LOOP:
-                loops += 1
-
-        return loops
 
 def move_guard(grid, guard, visited):
     r, c = guard
@@ -56,7 +49,7 @@ def move_guard(grid, guard, visited):
 
     if 0 <= r + dr < len(grid) and 0 <= c + dc < len(grid[0]):
         if (r, c, grid[r][c]) not in visited:
-            visited.append((r, c, grid[r][c]))
+            visited.add((r, c, grid[r][c]))
             grid[r + dr][c + dc] = grid[r][c]
             grid[r][c] = 'x'                        # For part 1
             return r + dr, c + dc
@@ -81,9 +74,18 @@ def generate_variants(grid):
 
     return variants
 
+def simulate_variant(grid):
+    visited = set()
+    guard = next((r, row.index('^')) for r, row in enumerate(grid) if '^' in row)
+
+    while guard not in [Status.OUT, Status.LOOP]:
+        guard = move_guard(grid, guard, visited)
+
+    return guard == Status.LOOP
+
 
 if __name__ == "__main__":
-    solution = Day6Solution(day=6, example=1)
+    solution = Day6Solution(day=6, example=None)
     solution.run(part=1)
     solution.run(part=2)
 
