@@ -8,8 +8,8 @@ def get_key_by_value(dictionary, val):
     return None
 
 
-def get_keys_by_value(dictionary, list):
-    return [get_key_by_value(dictionary, val) for val in list]
+def get_keys_by_value(dictionary, lst):
+    return [get_key_by_value(dictionary, val) for val in lst]
 
 
 def manhattan_distance(point1, point2):
@@ -42,3 +42,10 @@ def list_reductions(lst):
     @return: A list of sublists, each with one element removed from the original list.
     """
     return [lst[:i] + lst[i + 1:] for i in range(len(lst))]
+
+def slice_lists(lst, slices):
+    length = len(lst)
+    if length == 1:
+        return lst
+    else:
+        return [(lst[i * (length // slices): (i + 1) * (length // slices)]) for i in range(slices)]
