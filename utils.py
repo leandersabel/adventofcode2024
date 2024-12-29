@@ -34,6 +34,9 @@ def neighbours(lst):
 def get_digits(line):
     return [int(x) for x in re.findall(r'\d+', line)]
 
+def get_signed_digits(line):
+    return [int(x) for x in re.findall(r'-?\d+', line)]
+
 
 def list_reductions(lst):
     """
