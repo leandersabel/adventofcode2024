@@ -20,7 +20,7 @@ class Day14Solution(Solution):
         for point, vector in self.parsed_input:
             new_point = teleport(point + vector * time, size)
             quad = get_quadrant(new_point, size)
-            if quad:
+            if quad:  # Ignores points on the border
                 quads[quad] += 1
 
         return math.prod(x for x in quads.values())
