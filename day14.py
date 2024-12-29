@@ -14,8 +14,7 @@ class Day14Solution(Solution):
         return [[np.array(d[0:2]), np.array(d[2:4])] for d in digit_groups]
 
     def solve_part1(self):
-        size = (101, 103)
-        time = 100
+        size, time = (101, 103), 100
         quads = defaultdict(int)
 
         for point, vector in self.parsed_input:
